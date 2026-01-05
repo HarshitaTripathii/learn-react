@@ -16,7 +16,7 @@ function App() {
   //   age: 22
   // }])
   // console.log(name, age);
-  
+
   // console.log(data);
   // console.log(...data);
   // return (
@@ -40,30 +40,44 @@ function App() {
 
   //   </div>
   // )
-  const [data, setData]=useState(null);
-  const[loading, setLoading]=useState(false);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setAge] = useState("");
 
-  useEffect(()=>{
-     async function fetchData(){
+  useEffect(() => {
+    async function fetchData() {
       setLoading(true);
-      const response=await fetch('https://jsonplaceholder.typicode.com/users')
-      const data1=await response.json();
+      const response = await fetch('https://jsonplaceholder.typicode.com/users')
+      const data1 = await response.json();
       console.log(data1);
       setData(data1);
       setLoading(false);
 
-  }
-  fetchData();
- 
+    }
+    fetchData();
+
   }, [])
   console.log("Data", data)
-  console.log(loading)
-  if(loading) return <div><h1>Loading</h1></div>
+  // console.log(loading)
+  if (loading) return <div><h1>Loading</h1></div>
   return <div>
+    <form onSubmit={e => {
+      e.preventDefault()
+      setData([...data, {
+        name: name,
+        email: email
+      }])
+    }}>
+      <input type='text' placeholder='Name' onChange={e => { setName(e.target.value) }} />
+      <input type='email' placeholder='Email' onChange={e => { setAge(e.target.value) }} />
+      <button type='submit'>Submit</button>
+    </form>
     {data?.map(item => (
-          <Card name={item.name} age={item.email} />
+      <Card name={item.name} age={item.email} />
     ))}
   </div>
+
 }
 
 export default App
