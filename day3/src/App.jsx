@@ -44,6 +44,11 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setAge] = useState("");
+  function clearInp() {
+    const inp = document.querySelector(".inp");
+    // const inp1=document.getElementsByClassName("inp");
+    inp.value = "";
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -59,6 +64,10 @@ function App() {
 
   }, [])
   console.log("Data", data)
+  function onNameChange(e){
+     setName(e.target.value) 
+     console.log(e.target.value)
+  }
   // console.log(loading)
   if (loading) return <div><h1>Loading</h1></div>
   return <div>
@@ -67,11 +76,14 @@ function App() {
       setData([...data, {
         name: name,
         email: email
-      }])
+      }]);
+      setName("");
+      setAge("");
+      
     }}>
-      <input type='text' placeholder='Name' onChange={e => { setName(e.target.value) }} />
-      <input type='email' placeholder='Email' onChange={e => { setAge(e.target.value) }} />
-      <button type='submit'>Submit</button>
+      <input type='text' placeholder='Name' value={name} onChange={onNameChange} />
+      <input type='email' placeholder='Email' value={email} onChange={e => { setAge(e.target.value) }} />
+      <button type='submit' >Submit</button>
     </form>
     {data?.map(item => (
       <Card name={item.name} age={item.email} />
